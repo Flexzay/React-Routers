@@ -2,9 +2,7 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { Link, Outlet } from "react-router";
 import { ContactList } from "../components/ContactList";
-import { ContactInfo } from "../components/ContactInfo";
-import { NoContactSelected } from "../components/NoContactSelected";
-import { ContactInfoSkeleton } from "../components/ContactInfoSkeleton";
+import { ContactDetail } from "../components/contact-detail/ContactDetail";
 
 export default function ChatLayout() {
   return (
@@ -15,7 +13,7 @@ export default function ChatLayout() {
           <div className="flex items-center gap-2">
             <div className="h-6 w-6 rounded-full bg-primary" />
             <Link to="/chat" className="text-lg">
-            <span className="font-semibold">NexTalk</span>
+              <span className="font-semibold">NexTalk</span>
             </Link>
           </div>
         </div>
@@ -45,9 +43,8 @@ export default function ChatLayout() {
           <div className="h-14 border-b px-4 flex items-center">
             <h2 className="font-medium">Contact details</h2>
           </div>
-          {/* <ContactInfo/> */}
-          {/* <NoContactSelected />*/}
-          <ContactInfoSkeleton/>
+          <ContactDetail/>
+          
         </div>
       </div>
     </div>
