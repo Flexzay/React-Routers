@@ -6,15 +6,29 @@ import { Label } from "@/components/ui/label";
 
 import placeholderImage from "@/assets/placeholder.svg";
 import { Link, useNavigate } from "react-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { loginUser } from "../../../fake/fake-data";
 
 export function LoginPage({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const { mutate: loginMutation } = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (data) => {
+      localStorage.setItem("token", data.token);
+
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+
+      navigate("/chat", { replace: true });
+    },
+  });
 
   const ongogleLogin = () => {
-    navigate("/chat", { replace: true });
+    loginMutation();
   };
 
   return (
@@ -72,7 +86,7 @@ export function LoginPage({
                   onClick={ongogleLogin}
                   variant="outline"
                   className="w-full"
-                  type='button'
+                  type="button"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
