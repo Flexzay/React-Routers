@@ -3,12 +3,13 @@ import AuthLayout from "./auth/layout/AuthLayout";
 import { LoginPage } from "./auth/layout/pages/LoginPages";
 import { lazy, Suspense } from "react";
 import { RegisterPage } from "./auth/layout/pages/RegisterPages";
+import { PrivateRoute } from "./auth/components/PrivateRoute";
 
 const ChatLayout = lazy(() => import("./chat/layout/ChatLayout"));
 const ChatPage = lazy(() => import("./chat/pages/ChatPage"));
-const NoChatSelectedPage = lazy(() => import("./chat/pages/NoChatSelectedPage"));
-
-
+const NoChatSelectedPage = lazy(
+  () => import("./chat/pages/NoChatSelectedPage")
+);
 
 export const AppRouter = () => {
   return (
@@ -23,14 +24,14 @@ export const AppRouter = () => {
           path="/chat"
           element={
             <Suspense fallback={<div>cargando ...</div>}>
-              <ChatLayout />
+              <PrivateRoute isAuthenticated={true}>
+                <ChatLayout />
+              </PrivateRoute>
             </Suspense>
           }
         >
-          
           <Route index element={<NoChatSelectedPage />} />
           <Route path="/chat/:clientId" element={<ChatPage />} />
-          
         </Route>
 
         <Route path="/" element={<Navigate to="/auth" />} />
